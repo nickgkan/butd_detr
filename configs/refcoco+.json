@@ -1,0 +1,11 @@
+{
+    "combine_datasets": ["refexp"],
+    "combine_datasets_val": ["refexp"],
+    "refexp_dataset_name": "refcoco+",
+    "coco_path_refcoco": "/data/beauty_detr",
+    "coco_boxes_path": "/data/beauty_detr/extra_data/coco_boxes.lmdb",
+    "refexp_ann_path": "/data/beauty_detr/OpenSource/",
+    "embeddings_path": "/data/beauty_detr/extra_data/class_embeddings.npy",
+    "epochs": 18,
+    "lr_drop": 13
+}

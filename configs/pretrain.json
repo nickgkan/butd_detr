@@ -1,0 +1,19 @@
+{
+    "combine_datasets": ["flickr", "mixed", "coco"],
+    "combine_datasets_val": ["flickr", "refexp"],
+    "vg_img_path": "/data/beauty_detr/images/",
+    "gqa_ann_path": "/data/beauty_detr/OpenSource/",
+    "vg_boxes_path": "/data/beauty_detr/extra_data/gqa_boxes.lmdb",
+    "flickr_img_path" : "/data/beauty_detr/flickr30k-images",
+    "flickr_dataset_path" : "/data/beauty_detr/flickr30k_entities/",
+    "flickr_ann_path" : "/data/beauty_detr/OpenSource/",
+    "flickr_boxes_path": "/data/beauty_detr/extra_data/flickr_boxes_correct.lmdb",
+    "embeddings_path": "/data/beauty_detr/extra_data/class_embeddings.npy",
+    "refexp_ann_path": "/data/beauty_detr/OpenSource/",
+    "coco_path_refcoco": "/data/beauty_detr",
+    "coco_boxes_path": "/data/beauty_detr/extra_data/coco_boxes.lmdb",
+    "refexp_dataset_name": "refcoco",
+    "GT_type": "separate",
+    "epochs": 12,
+    "lr_drop": 9
+}

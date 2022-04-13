@@ -1,0 +1,4 @@
+# ninja log v5
+0	7208	1649782047012130890	/data/beauty_detr/Deformable-DETR/models/ops/build/temp.linux-x86_64-cpython-38/data/beauty_detr/Deformable-DETR/models/ops/src/cpu/ms_deform_attn_cpu.o	2a5b383263a83e8
+0	22495	1649782062296268336	/data/beauty_detr/Deformable-DETR/models/ops/build/temp.linux-x86_64-cpython-38/data/beauty_detr/Deformable-DETR/models/ops/src/vision.o	fc6c1bc935e57956
+0	67239	1649782107024670564	/data/beauty_detr/Deformable-DETR/models/ops/build/temp.linux-x86_64-cpython-38/data/beauty_detr/Deformable-DETR/models/ops/src/cuda/ms_deform_attn_cuda.o	faf4fad9676d0ccf
