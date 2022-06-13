@@ -19,7 +19,7 @@ import torch.distributed as dist
 from main_utils import parse_option, BaseTrainTester
 from data.model_util_scannet import ScannetDatasetConfig
 from src.joint_det_dataset import Joint3DDataset
-from src.grounding_evaluator import GroundingEvaluator
+from src.grounding_evaluator import GroundingEvaluator, GroundingGTEvaluator
 from models import BeaUTyDETR
 from models import APCalculator, parse_predictions, parse_groundtruths
 
@@ -135,11 +135,13 @@ class TrainTester(BaseTrainTester):
             prefixes = ['proposal_']  # only proposal
         prefixes += [f'{i}head_' for i in range(args.num_decoder_layers - 1)]
 
-        evaluator = GroundingEvaluator(
-            only_root=True, thresholds=[0.25, 0.5],
-            topks=[1, 5, 10], prefixes=prefixes,
-            filter_non_gt_boxes=args.butd_cls
-        )
+        if args.butd_cls:
+            evaluator = GroundingGTEvaluator(prefixes=prefixes)
+        else:
+            evaluator = GroundingEvaluator(
+                only_root=True, thresholds=[0.25, 0.5],
+                topks=[1, 5, 10], prefixes=prefixes
+            )
 
         # Main eval branch
         for batch_idx, batch_data in enumerate(test_loader):
