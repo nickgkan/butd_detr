@@ -86,7 +86,7 @@ For running on multiple GPUs, you can change `run_train` files. For example, to 
 GPUS_PER_NODE=8 ./tools/run_dist_launch.sh 8  ./configs/pretrain.sh 
 ```
 
-The above scripts will run training and evaluation on SR3D. You can edit the following to customize training in corresponding experiment files in config folder:
+Some other useful flags are:
 
 - ```--eval```: Add it to skip training and just evaluate. You can remove it to train the model. 
 - ```--resume```: Add this flag and the path to the checkpoint you want to evaluate.
@@ -94,7 +94,7 @@ The above scripts will run training and evaluation on SR3D. You can edit the fol
 
 ### General Recommendations
 
-- We have found the default learning  rates in main.py to work well if your effective batch size is low (like <10). If you are running on larger number of GPUs, you might want to enable ``--large_scale`` flag and increase the learning rates (refer to `configs/pretrain.sh` whose hyperparameters are set to work with 64 GPUs). Due to computational limitations, we couldn't tuned these hyperparameters and hence you might get better results by hyperparameter tuning
+- We have found the default learning  rates in main.py to work well if your effective batch size is low (like <10). If you are running on larger number of GPUs, you might want to enable ``--large_scale`` flag and increase the learning rates (refer to `configs/pretrain.sh` whose hyperparameters are set to work with 64 GPUs). Due to computational limitations, we couldn't tune these hyperparameters and hence you might get better results by hyperparameter tuning
 - You might see slightly worse results when evaluating with batch size > 1. This is because we used batch size 1 during training, and hence the model never saw padded images. For more details, please refer this [issue](https://github.com/facebookresearch/detr/issues/217#issuecomment-684087741)
 
 
