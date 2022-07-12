@@ -19,7 +19,7 @@ If you need to use a different version, you can try to modify `environment.yml` 
 
 - Install environment: `conda env create -f environment.yml --name bdetr3d`
 - Activate environment: `conda activate bdetr3d`
-- Install torch: `pip install -U -f torch==1.10.2 torchvision==0.11.3 --extra-index-url https://download.pytorch.org/whl/cu111`
+- Install torch: `pip install -U torch==1.10.2 torchvision==0.11.3 --extra-index-url https://download.pytorch.org/whl/cu111`
 - Compile the CUDA layers for [PointNet++](http://arxiv.org/abs/1706.02413), which we used in the backbone
   network: `sh init.sh`
 
