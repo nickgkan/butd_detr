@@ -1,16 +1,16 @@
-# Looking Outside the Box to Ground Language in 3D Scenes
+# Bottom Up and Top Down Detection Transformers for Language Grounding in Images and Point Clouds
 
 
 By [Ayush Jain](https://github.com/ayushjain1144), [Nikolaos Gkanatsios](https://github.com/nickgkan), [Ishita Mediratta](https://github.com/ishitamed19), [Katerina Fragkiadaki](https://www.cs.cmu.edu/~katef/).
 
-Official implementation of ["Looking Outside the Box to Ground Language in 3D Scenes"](https://arxiv.org/abs/2112.08879).
+Official implementation of ["Bottom Up and Top Down Detection Transformers for Language Grounding in Images and Point Clouds"](https://arxiv.org/abs/2112.08879), accepted by ECCV 2022.
 
 
 ![teaser](figs/arch.png)
 
 **Note:**
 
-This is the code for the 2D BEAUTY-DETR. For the 3D version check the `main` branch.
+This is the code for the 2D BUTD-DETR. For the 3D version check the `main` branch.
 
 
 ## Installation
@@ -103,11 +103,11 @@ Some other useful flags are:
 Parts of this code were based on the codebase of [MDETR](https://github.com/ashkamath/mdetr) and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR)
 
 
-## Citing BEAUTY-DETR
-If you find BEAUTY-DETR useful in your research, please consider citing:
+## Citing BUTD-DETR
+If you find BUTD-DETR useful in your research, please consider citing:
 ```bibtex
 @article{jain2021looking,
-  title={Looking Outside the Box to Ground Language in 3D Scenes},
+  title={Bottom Up and Top Down Detection Transformers for Language Grounding in Images and Point Clouds},
   author={Jain, Ayush and Gkanatsios, Nikolaos and Mediratta, Ishita and Fragkiadaki, Katerina},
   journal={arXiv preprint arXiv:2112.08879},
   year={2021}
@@ -117,4 +117,4 @@ If you find BEAUTY-DETR useful in your research, please consider citing:
 
 ## License
 
-The majority of BEAUTY-DETR code is licensed under CC-BY-NC, however portions of the project are available under separate license terms: [MDETR](https://github.com/ashkamath/mdetr) and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR) are licensed under the Apache 2.0 license.
+The majority of BUTD-DETR code is licensed under CC-BY-NC, however portions of the project are available under separate license terms: [MDETR](https://github.com/ashkamath/mdetr) and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR) are licensed under the Apache 2.0 license.
