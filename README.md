@@ -1,15 +1,15 @@
-# Looking Outside the Box to Ground Language in 3D Scenes
+# Bottom Up Top Down Detection Transformers for Language Grounding in Images and Point Clouds
 
 
 By [Ayush Jain](https://github.com/ayushjain1144), [Nikolaos Gkanatsios](https://github.com/nickgkan), [Ishita Mediratta](https://github.com/ishitamed19), [Katerina Fragkiadaki](https://www.cs.cmu.edu/~katef/).
 
-Official implementation of ["Looking Outside the Box to Ground Language in 3D Scenes"](https://arxiv.org/abs/2112.08879).
+Official implementation of ["Bottom Up Top Down Detection Transformers for Language Grounding in Images and Point Clouds"](https://arxiv.org/abs/2112.08879), accepted by ECCV 2022.
 
 ![teaser](teaser.png)
 
 **Note:**
 
-This is the code for the 3D BEAUTY-DETR. For the 2D version check the branch `bdetr2d`.
+This is the code for the 3D BUTD-DETR. For the 2D version check the branch `bdetr2d`.
 
 ## Install
 
@@ -39,9 +39,9 @@ If you need to use a different version, you can try to modify `environment.yml` 
 
 ## Usage
 
-- `sh scripts/train_test_det.sh` to train/test BEAUTY-DETR. You need to modify the script by providing `DATA_ROOT`.
+- `sh scripts/train_test_det.sh` to train/test BUTD-DETR. You need to modify the script by providing `DATA_ROOT`.
 
-- `sh scripts/train_test_cls.sh` to train/test BEAUTY-DETR with ground-truth boxes (not classes). Again, you need to modify the script by providing `DATA_ROOT`.
+- `sh scripts/train_test_cls.sh` to train/test BUTD-DETR with ground-truth boxes (not classes). Again, you need to modify the script by providing `DATA_ROOT`.
 
 The above scripts will run training and evaluation on SR3D. You can edit the following to customize training:
 
@@ -71,11 +71,11 @@ Note that these checkpoints were stored while using `DistributedDataParallel`. T
 Parts of this code were based on the codebase of [Group-Free](https://github.com/zeliu98/Group-Free-3D). The loss implementation (Hungarian matching and criterion class) are based on the codebase of [MDETR](https://github.com/ashkamath/mdetr).
 
 
-## Citing BEAUTY-DETR
-If you find BEAUTY-DETR useful in your research, please consider citing:
+## Citing BUTD-DETR
+If you find BUTD-DETR useful in your research, please consider citing:
 ```bibtex
 @article{jain2021looking,
-  title={Looking Outside the Box to Ground Language in 3D Scenes},
+  title={Bottom Up and Top Down Detection Transformers for Language Grounding in Images and Point Clouds},
   author={Jain, Ayush and Gkanatsios, Nikolaos and Mediratta, Ishita and Fragkiadaki, Katerina},
   journal={arXiv preprint arXiv:2112.08879},
   year={2021}
@@ -84,4 +84,4 @@ If you find BEAUTY-DETR useful in your research, please consider citing:
 
 ## License
 
-The majority of BEAUTY-DETR code is licensed under CC-BY-NC, however portions of the project are available under separate license terms: [MDETR](https://github.com/ashkamath/mdetr) is licensed under the Apache 2.0 license; and [Group-Free](https://github.com/zeliu98/Group-Free-3D) is licensed under the MIT license.
+The majority of BUTD-DETR code is licensed under CC-BY-NC, however portions of the project are available under separate license terms: [MDETR](https://github.com/ashkamath/mdetr) is licensed under the Apache 2.0 license; and [Group-Free](https://github.com/zeliu98/Group-Free-3D) is licensed under the MIT license.
