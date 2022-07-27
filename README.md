@@ -106,12 +106,17 @@ Parts of this code were based on the codebase of [MDETR](https://github.com/ashk
 ## Citing BUTD-DETR
 If you find BUTD-DETR useful in your research, please consider citing:
 ```bibtex
-@article{jain2021looking,
-  title={Bottom Up and Top Down Detection Transformers for Language Grounding in Images and Point Clouds},
-  author={Jain, Ayush and Gkanatsios, Nikolaos and Mediratta, Ishita and Fragkiadaki, Katerina},
-  journal={arXiv preprint arXiv:2112.08879},
-  year={2021}
-}
+@misc{https://doi.org/10.48550/arxiv.2112.08879,
+        doi = {10.48550/ARXIV.2112.08879},
+        url = {https://arxiv.org/abs/2112.08879},
+        author = {Jain, Ayush and Gkanatsios, Nikolaos and Mediratta, Ishita and Fragkiadaki, Katerina},
+        keywords = {Computer Vision and Pattern Recognition (cs.CV), Computation and Language (cs.CL), FOS: Computer and information sciences, FOS: Computer and information sciences},
+        title = {Bottom Up Top Down Detection Transformers for Language Grounding in Images and Point Clouds},
+        publisher = {arXiv},
+        year = {2021},
+        copyright = {Creative Commons Attribution 4.0 International}
+      }
+    
 ```
 
 
