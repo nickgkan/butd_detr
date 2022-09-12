@@ -53,7 +53,7 @@ The above scripts will run training and evaluation on SR3D. You can edit the fol
 
 - To train on multiple datasets, e.g. on SR3D and NR3D simultaneously, set `--TRAIN_DATASET sr3d nr3d`.
 
-- On NR3D and ScanRefer we need much more training epochs to converge. It's better to monitor the validation accuracy and decrease learning rate accordingly.
+- On NR3D and ScanRefer we need much more training epochs to converge. It's better to monitor the validation accuracy and decrease learning rate accordingly. For example, in `det` setup, we decrease lr at epochs 80 and 90 for NR3D and at epoch 65 for Scanrefer. To disable automatic learning rate decay, you can remove `--lr_decay_epochs` from the train script and manually decrease the learning rate when the validation accuracy converges. Be sure to add `--reduce_lr` flag when decreasing learning rate and continuing from a checkpoint to load optimizers correctly. 
 
 ## Pre-trained checkpoints
 Download our checkpoints for [SR3D_det](https://zenodo.org/record/6430189/files/sr3d_butd_det_52.1_27.pth?download=1), [NR3D_det](https://zenodo.org/record/6430189/files/bdetr_nr3d_43.3.pth?download=1), [ScanRefer_det](https://zenodo.org/record/6430189/files/scanrefer_det_52.2.pth?download=1), [SR3D_cls](https://zenodo.org/record/6430189/files/bdetr_sr3d_cls_67.1.pth?download=1), [NR3D_cls](https://zenodo.org/record/6430189/files/bdetr_nr3d_cls_55.4.pth?download=1). Add `--checkpoint_path CKPT_NAME` to the above scripts in order to utilize the stored checkpoints.
