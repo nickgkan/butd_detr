@@ -358,8 +358,8 @@ class GroundingGTEvaluator:
         # Highest scoring box -> iou
         for bid in range(len(positive_map)):
             all_gt_boxes = box_cxcyczwhd_to_xyzxyz(
-                        end_points['all_detected_boxes'][bid][
-                            end_points['all_detected_bbox_label_mask'][bid]
+                        end_points['all_bboxes'][bid][
+                            end_points['all_bbox_label_mask'][bid]
                         ]
                     )
 
@@ -384,8 +384,8 @@ class GroundingGTEvaluator:
             ious, _ = _iou3d_par(all_gt_boxes,  # (gt, 6)
                     box_cxcyczwhd_to_xyzxyz(pbox)  # (Q, 6)
                 )
-            pbox = end_points['all_detected_boxes'][bid][
-                            end_points['all_detected_bbox_label_mask'][bid]
+            pbox = end_points['all_bboxes'][bid][
+                            end_points['all_bbox_label_mask'][bid]
                         ][ious.argmax()]
             found = int((pbox == gt_bboxes[bid]).all())
             self.dets[(prefix, 'bbs')] += found
@@ -419,8 +419,8 @@ class GroundingGTEvaluator:
         # Highest scoring box -> iou
         for bid in range(len(positive_map)):
             all_gt_boxes = box_cxcyczwhd_to_xyzxyz(
-                    end_points['all_detected_boxes'][bid][
-                        end_points['all_detected_bbox_label_mask'][bid]
+                    end_points['all_bboxes'][bid][
+                        end_points['all_bbox_label_mask'][bid]
                     ]
                 )
             ious, _ = _iou3d_par(all_gt_boxes,  # (gt, 6)
@@ -445,8 +445,8 @@ class GroundingGTEvaluator:
                 all_gt_boxes,  # (obj, 6)
                 box_cxcyczwhd_to_xyzxyz(pbox)  # (obj*10, 6)
             )  # (obj, obj*10)
-            pbox = end_points['all_detected_boxes'][bid][
-                            end_points['all_detected_bbox_label_mask'][bid]
+            pbox = end_points['all_bboxes'][bid][
+                            end_points['all_bbox_label_mask'][bid]
                         ][ious.argmax()]
             found = int((pbox == gt_bboxes[bid]).all())
 
