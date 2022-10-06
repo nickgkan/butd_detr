@@ -26,6 +26,7 @@ from data.scannet_utils import read_label_mapping
 from src.visual_data_handlers import Scan
 from .scannet_classes import REL_ALIASES, VIEW_DEP_RELS
 
+
 NUM_CLASSES = 485
 DC = ScannetDatasetConfig(NUM_CLASSES)
 DC18 = ScannetDatasetConfig(18)
@@ -525,11 +526,12 @@ class Joint3DDataset(Dataset):
             for ind in range(len(scan.three_d_objects))
         ])[:MAX_NUM_OBJ]
         keep = np.array([False] * MAX_NUM_OBJ)
-        keep[:len(keep_)] = keep_
+        keep[:len(keep_)] = True  # keep_
 
         # Class ids
         cid = np.array([
             DC.nyu40id2class[self.label_map[scan.get_object_instance_label(k)]]
+            if keep_[k] else 325  # this is the 'object' class
             for k, kept in enumerate(keep) if kept
         ])
         class_ids = np.zeros((MAX_NUM_OBJ,))
@@ -705,7 +707,10 @@ class Joint3DDataset(Dataset):
             all_detected_bbox_label_mask = all_bbox_label_mask
             detected_class_ids = np.zeros((len(all_bboxes,)))
             classes = np.array(self.cls_results[anno['scan_id']])
-            detected_class_ids[all_bbox_label_mask] = classes[classes > -1]
+            # detected_class_ids[all_bbox_label_mask] = classes[classes > -1]
+            classes[classes == -1] = 325  # 'object' class
+            _k = all_bbox_label_mask.sum()
+            detected_class_ids[:_k] = classes[:_k]
 
         # Visualize for debugging
         if self.visualize and anno['dataset'].startswith('sr3d'):
