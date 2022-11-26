@@ -531,6 +531,7 @@ class SetCriterion(nn.Module):
         )
         if is_dist_avail_and_initialized():
             torch.distributed.all_reduce(num_boxes)
+        num_boxes = torch.clamp(num_boxes / dist.get_world_size(), min=1).item()
 
         # Compute all the requested losses
         losses = {}

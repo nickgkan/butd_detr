@@ -135,7 +135,7 @@ class TrainTester(BaseTrainTester):
             prefixes = ['proposal_']  # only proposal
         prefixes += [f'{i}head_' for i in range(args.num_decoder_layers - 1)]
 
-        if args.butd_cls:
+        if args.butd_cls or args.butd_gt:
             evaluator = GroundingGTEvaluator(prefixes=prefixes)
         else:
             evaluator = GroundingEvaluator(

@@ -134,6 +134,8 @@ class Joint3DDataset(Dataset):
             split = 'test'
         with open('data/meta_data/sr3d_%s_scans.txt' % split) as f:
             scan_ids = set(eval(f.read()))
+        with open(self.data_path + 'sr3d_pred_spans.json', 'r') as f:
+            pred_spans = json.load(f)
         with open(self.data_path + 'refer_it_3d/%s.csv' % dset) as f:
             csv_reader = csv.reader(f)
             headers = next(csv_reader)
@@ -147,9 +149,11 @@ class Joint3DDataset(Dataset):
                     'target': line[headers['instance_type']],
                     'anchors': eval(line[headers['anchors_types']]),
                     'anchor_ids': eval(line[headers['anchor_ids']]),
-                    'dataset': dset
+                    'dataset': dset,
+                    'pred_pos_map': pred_spans[i]['span'],  # predicted span
+                    'span_utterance': pred_spans[i]['utterance']  # for assert
                 }
-                for line in csv_reader
+                for i, line in enumerate(csv_reader)
                 if line[headers['scan_id']] in scan_ids
                 and
                 str(line[headers['mentions_target_class']]).lower() == 'true'
@@ -163,6 +167,8 @@ class Joint3DDataset(Dataset):
             split = 'test'
         with open('data/meta_data/nr3d_%s_scans.txt' % split) as f:
             scan_ids = set(eval(f.read()))
+        with open(self.data_path + 'nr3d_pred_spans.json', 'r') as f:
+            pred_spans = json.load(f)
         with open(self.data_path + 'refer_it_3d/nr3d.csv') as f:
             csv_reader = csv.reader(f)
             headers = next(csv_reader)
@@ -175,9 +181,11 @@ class Joint3DDataset(Dataset):
                     'utterance': line[headers['utterance']],
                     'anchor_ids': [],
                     'anchors': [],
-                    'dataset': 'nr3d'
+                    'dataset': 'nr3d',
+                    'pred_pos_map': pred_spans[i]['span'],  # predicted span
+                    'span_utterance': pred_spans[i]['utterance']  # for assert
                 }
-                for line in csv_reader
+                for i, line in enumerate(csv_reader)
                 if line[headers['scan_id']] in scan_ids
                 and
                 str(line[headers['mentions_target_class']]).lower() == 'true'
@@ -197,8 +205,6 @@ class Joint3DDataset(Dataset):
                 == anno['target']
                 and ind != anno['target_id']
             ]
-        # Filter out sentences that do not explicitly mention the target class
-        annos = [anno for anno in annos if anno['target'] in anno['utterance']]
         return annos
 
     def load_scanrefer_annos(self):
@@ -211,6 +217,9 @@ class Joint3DDataset(Dataset):
             scan_ids = [line.rstrip().strip('\n') for line in f.readlines()]
         with open(_path + '_%s.json' % split) as f:
             reader = json.load(f)
+        with open(self.data_path + f'scanrefer_pred_spans_{split}.json') as f:
+            pred_spans = json.load(f)
+
         annos = [
             {
                 'scan_id': anno['scene_id'],
@@ -220,19 +229,14 @@ class Joint3DDataset(Dataset):
                 'target': ' '.join(str(anno['object_name']).split('_')),
                 'anchors': [],
                 'anchor_ids': [],
-                'dataset': 'scanrefer'
+                'dataset': 'scanrefer',
+                'pred_pos_map': pred_spans[i]['span'],  # predicted span
+                'span_utterance': pred_spans[i]['utterance']  # for assert
             }
-            for anno in reader
+            for i, anno in enumerate(reader)
             if anno['scene_id'] in scan_ids
         ]
-        # Fix missing target reference
-        for anno in annos:
-            if anno['target'] not in anno['utterance']:
-                anno['utterance'] = (
-                    ' '.join(anno['utterance'].split(' . ')[0].split()[:-1])
-                    + ' ' + anno['target'] + ' . '
-                    + ' . '.join(anno['utterance'].split(' . ')[1:])
-                )
+
         # Add distractor info
         scene2obj = defaultdict(list)
         sceneobj2used = defaultdict(list)
@@ -356,7 +360,7 @@ class Joint3DDataset(Dataset):
 
         # Rotate/flip only if we don't have a view_dep sentence
         if rotate:
-            theta_z = 90*np.random.randint(0, 4) + (2*np.random.rand() - 1) * 5
+            theta_z = 90 * np.random.randint(0, 4) + 10 * np.random.rand() - 5
             # Flipping along the YZ plane
             augmentations['yz_flip'] = np.random.random() > 0.5
             if augmentations['yz_flip']:
@@ -366,15 +370,15 @@ class Joint3DDataset(Dataset):
             if augmentations['xz_flip']:
                 pc[:, 1] = -pc[:, 1]
         else:
-            theta_z = (2*np.random.rand() - 1) * 5
+            theta_z = (2 * np.random.rand() - 1) * 5
         augmentations['theta_z'] = theta_z
         pc[:, :3] = rot_z(pc[:, :3], theta_z)
         # Rotate around x
-        theta_x = (2*np.random.rand() - 1) * 2.5
+        theta_x = (2 * np.random.rand() - 1) * 2.5
         augmentations['theta_x'] = theta_x
         pc[:, :3] = rot_x(pc[:, :3], theta_x)
         # Rotate around y
-        theta_y = (2*np.random.rand() - 1) * 2.5
+        theta_y = (2 * np.random.rand() - 1) * 2.5
         augmentations['theta_y'] = theta_y
         pc[:, :3] = rot_y(pc[:, :3], theta_y)
 
@@ -388,13 +392,13 @@ class Joint3DDataset(Dataset):
         pc[:, :3] += augmentations['shift']
 
         # Scale
-        augmentations['scale'] = 0.98 + 0.04*np.random.random()
+        augmentations['scale'] = 0.98 + 0.04 * np.random.random()
         pc[:, :3] *= augmentations['scale']
 
         # Color
         if color is not None:
             color += self.mean_rgb
-            color *= 0.98 + 0.04*np.random.random((len(color), 3))
+            color *= 0.98 + 0.04 * np.random.random((len(color), 3))
             color -= self.mean_rgb
         return pc, color, augmentations
 
@@ -465,7 +469,7 @@ class Joint3DDataset(Dataset):
             len_ = len(cat_name)
             if start_span < 0:
                 start_span = caption.find(' ' + cat_name)
-                len_ = len(caption[start_span+1:].split()[0])
+                len_ = len(caption[start_span + 1:].split()[0])
             if start_span < 0:
                 start_span = caption.find(cat_name)
                 orig_start_span = start_span
@@ -511,7 +515,7 @@ class Joint3DDataset(Dataset):
             bboxes[:, 3:] - bboxes[:, :3]
         ), 1)
         if self.split == 'train' and self.augment:  # jitter boxes
-            bboxes[:len(tids)] *= (0.95 + 0.1*np.random.random((len(tids), 6)))
+            bboxes[:len(tids)] *= 0.95 + 0.1 * np.random.random((len(tids), 6))
         bboxes[len(tids):, :3] = 1000
         box_label_mask = np.zeros(MAX_NUM_OBJ)
         box_label_mask[:len(tids)] = 1
@@ -550,7 +554,7 @@ class Joint3DDataset(Dataset):
         ), 1)
         all_bboxes[keep] = all_bboxes_
         if self.split == 'train' and self.augment:
-            all_bboxes *= (0.95 + 0.1*np.random.random((len(all_bboxes), 6)))
+            all_bboxes *= 0.95 + 0.1 * np.random.random((len(all_bboxes), 6))
 
         # Which boxes we're interested for
         all_bbox_label_mask = keep
@@ -682,7 +686,13 @@ class Joint3DDataset(Dataset):
             self._get_target_boxes(anno, scan)
 
         # Positive map for soft-token and contrastive losses
-        tokens_positive, positive_map = self._get_token_positive_map(anno)
+        if anno['dataset'] == 'scannet':
+            _, positive_map = self._get_token_positive_map(anno)
+        else:
+            assert anno['utterance'] == anno['span_utterance']  # sanity check
+            positive_map = np.zeros((MAX_NUM_OBJ, 256))
+            positive_map_ = np.array(anno['pred_pos_map']).reshape(-1, 256)
+            positive_map[:len(positive_map_)] = positive_map_
 
         # Scene gt boxes
         (
@@ -738,7 +748,6 @@ class Joint3DDataset(Dataset):
                 ' '.join(anno['utterance'].replace(',', ' ,').split())
                 + ' . not mentioned'
             ),
-            "tokens_positive": tokens_positive.astype(np.int64),
             "positive_map": positive_map.astype(np.float32),
             "relation": (
                 self._find_rel(anno['utterance'])

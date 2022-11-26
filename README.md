@@ -33,6 +33,8 @@ If you need to use a different version, you can try to modify `environment.yml` 
 
 - Download [object detector's outputs](https://drive.google.com/file/d/1OAArYe2NIfwSURiv6_ORbKAlYbOwfpVS/view?usp=sharing). Unzip inside `DATA_ROOT`.
 
+- Download span predictor's outputs inside `DATA_ROOT`: [ScanRefer_train](https://zenodo.org/record/7363895/files/scanrefer_pred_spans_train.json?download=1), [ScanRefer_val](https://zenodo.org/record/7363895/files/scanrefer_pred_spans_val.json?download=1), [SR3D](https://zenodo.org/record/7363895/files/sr3d_pred_spans.json?download=1), [NR3D](https://zenodo.org/record/7363895/files/nr3d_pred_spans.json?download=1).
+
 - (optional) Download PointNet++ [checkpoint](https://drive.google.com/file/d/1JwMTOaMWfK0JgOBBHU_2oBGXp9ORo9Q3/view?usp=sharing) into `DATA_ROOT`.
 
 - Run `python prepare_data.py --data_root DATA_ROOT` specifying your `DATA_ROOT`. This will create two .pkl files and has to only run once.
@@ -53,12 +55,16 @@ The above scripts will run training and evaluation on SR3D. You can edit the fol
 
 - To train on multiple datasets, e.g. on SR3D and NR3D simultaneously, set `--TRAIN_DATASET sr3d nr3d`.
 
-- On NR3D and ScanRefer we need much more training epochs to converge. It's better to monitor the validation accuracy and decrease learning rate accordingly. For example, in `det` setup, we decrease lr at epochs 80 and 90 for NR3D and at epoch 65 for Scanrefer. To disable automatic learning rate decay, you can remove `--lr_decay_epochs` from the train script and manually decrease the learning rate when the validation accuracy converges. Be sure to add `--reduce_lr` flag when decreasing learning rate and continuing from a checkpoint to load optimizers correctly. 
+- On NR3D and ScanRefer we need much more training epochs to converge. It's better to monitor the validation accuracy and decrease learning rate accordingly. For example, in `det` setup, we decrease lr at epochs 80 and 90 for NR3D and at epoch 65 for Scanrefer. To disable automatic learning rate decay, you can remove `--lr_decay_epochs` from the train script and manually decrease the learning rate when the validation accuracy converges. Be sure to add `--reduce_lr` flag when decreasing learning rate and continuing from a checkpoint to load optimizers correctly.
+
+- (Optional) To train a span predictor `cd src` and `python text_cls.py --dataset DATASET`.
 
 ## Pre-trained checkpoints
 Download our checkpoints for [SR3D_det](https://zenodo.org/record/6430189/files/sr3d_butd_det_52.1_27.pth?download=1), [NR3D_det](https://zenodo.org/record/6430189/files/bdetr_nr3d_43.3.pth?download=1), [ScanRefer_det](https://zenodo.org/record/6430189/files/scanrefer_det_52.2.pth?download=1), [SR3D_cls](https://zenodo.org/record/6430189/files/bdetr_sr3d_cls_67.1.pth?download=1), [NR3D_cls](https://zenodo.org/record/6430189/files/bdetr_nr3d_cls_55.4.pth?download=1). Add `--checkpoint_path CKPT_NAME` to the above scripts in order to utilize the stored checkpoints.
 
 Note that these checkpoints were stored while using `DistributedDataParallel`. To use them outside these checkpoints without `DistributedDataParallel`, take a look [here](https://discuss.pytorch.org/t/solved-keyerror-unexpected-key-module-encoder-embedding-weight-in-state-dict/1686).
+
+Lastly, we also release the checkpoints for span prediction ([ScanRefer](https://zenodo.org/record/7363895/files/scanrefer.pt?download=1), [SR3D](https://zenodo.org/record/7363895/files/sr3d.pt?download=1), [NR3D](https://zenodo.org/record/7363895/files/nr3d_unfrozen.pt?download=1))
 
 ## How does the evaluation work?
 - For each object query, we compute per-token confidence scores and regress bounding boxes.
