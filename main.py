@@ -241,6 +241,7 @@ def get_args_parser():
         help="If greater than 0, will split the training set into chunks and validate/checkpoint after each chunk",
     )
     parser.add_argument('--visualize_custom_image', default=False, action='store_true')
+    parser.add_argument('--custom_text', default="all objects", type=str)
     parser.add_argument('--img_path', default='img.jpg', type=str)
     parser.add_argument('--with_learned_class_embeddings', default=True, action='store_true')
     parser.add_argument('--embeddings_path', type=str, default="")
@@ -513,7 +514,7 @@ def main(args):
     if args.visualize_custom_image:
         img_path = args.img_path
         img = Image.open(img_path)
-        visualize_results(model, img)
+        visualize_results(model, img, args.custom_text)
         return
     
     print("Start training")

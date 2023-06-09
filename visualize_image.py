@@ -132,6 +132,5 @@ def plot_inference(im, caption, model):
     plot_results(im, probas[keep], bboxes_scaled, labels)
 
 
-def visualize_results(models, img):
-    caption = 'a woman'
+def visualize_results(models, img, caption):
     plot_inference(img, caption, models)
