@@ -31,7 +31,7 @@ If you need to use a different version, you can try to modify `environment.yml` 
 
 - Download ScanRefer annotations following the instructions [HERE](https://github.com/daveredrum/ScanRefer). Place all files under `DATA_ROOT/scanrefer/`.
 
-- Download [object detector's outputs](https://drive.google.com/file/d/1OAArYe2NIfwSURiv6_ORbKAlYbOwfpVS/view?usp=sharing). Unzip inside `DATA_ROOT`.
+- Download [object detector's outputs](https://drive.google.com/file/d/1OAArYe2NIfwSURiv6_ORbKAlYbOwfpVS/view?usp=sharing). Unzip inside `DATA_ROOT`. Here is the [group-free checkpoint](https://drive.google.com/file/d/11ka2r1NGNpY3lvmV-7qF2g75e63Bpmno/view?usp=sharing) we used to get these boxes in case you need it
 
 - Download span predictor's outputs inside `DATA_ROOT`: [ScanRefer_train](https://zenodo.org/record/7363895/files/scanrefer_pred_spans_train.json?download=1), [ScanRefer_val](https://zenodo.org/record/7363895/files/scanrefer_pred_spans_val.json?download=1), [SR3D](https://zenodo.org/record/7363895/files/sr3d_pred_spans.json?download=1), [NR3D](https://zenodo.org/record/7363895/files/nr3d_pred_spans.json?download=1).
 
